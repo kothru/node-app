@@ -2,4 +2,4 @@ const sayHello = (name: string) => {
   return `Hello, ${name}!`
 }
 
-console.log(sayHello('abc'))
+process.stdout.write(sayHello('abc'))
