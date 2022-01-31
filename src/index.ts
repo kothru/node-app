@@ -20,8 +20,12 @@ class HitAndBlow {
       }
     }
   }
+  async play() {
+    const inputArr = (await promptInput('input 3 num separate ,')).split(',')
+  }
 }
 ; (async () => {
   const hitAndBlow = new HitAndBlow()
   hitAndBlow.setting()
+  await hitAndBlow.play()
 })()
