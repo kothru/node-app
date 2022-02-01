@@ -50,7 +50,35 @@ class HitAndBlow {
    */
   async play() {
     const inputArr = (await promptInput('input 3 num separate ,')).split(',')
+    const result = this.check(inputArr)
 
+    if (result.hit !== this.answer.length) {
+      printLine(`---\nhit: ${result.hit}\nblow: ${result.blow}\n---`)
+      this.tryCount++
+      await this.play()
+    } else {
+      this.tryCount++
+    }
+  }
+  /**
+   * check input
+   * @param input input string
+   * @returns hit: hit count, blow: blow count
+   */
+  check(input: string[]) {
+    let hitCount = 0
+    let blowCount = 0
+
+    input.forEach((val, index) => {
+      if (val === this.answer[index]) {
+        hitCount++
+      } else if (this.answer.includes(val)) {
+        blowCount++
+      }
+    })
+    return {
+      hit: hitCount, blow: blowCount
+    }
   }
 }
 /**
