@@ -23,15 +23,15 @@ class HitAndBlow {
   /**
    * answer item source
    */
-  answerSource = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+  private readonly answerSource = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
   /**
    * set answer item
    */
-  answer: string[] = []
+  private answer: string[] = []
   /**
    * game try count
    */
-  tryCount = 0
+  private tryCount = 0
   /**
    * initialize game
    */
@@ -65,7 +65,7 @@ class HitAndBlow {
    * @param input input string
    * @returns hit: hit count, blow: blow count
    */
-  check(input: string[]) {
+  private check(input: string[]) {
     let hitCount = 0
     let blowCount = 0
 
@@ -80,6 +80,10 @@ class HitAndBlow {
       hit: hitCount, blow: blowCount
     }
   }
+  end() {
+    printLine(`success!\ntry times: ${this.tryCount}`)
+    process.exit()
+  }
 }
 /**
  * IIFE
@@ -88,4 +92,5 @@ class HitAndBlow {
   const hitAndBlow = new HitAndBlow()
   hitAndBlow.setting()
   await hitAndBlow.play()
+  hitAndBlow.end
 })()
