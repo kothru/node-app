@@ -50,6 +50,13 @@ class HitAndBlow {
    */
   async play() {
     const inputArr = (await promptInput('input 3 num separate ,')).split(',')
+
+    if (!this.validate(inputArr)) {
+      printLine('error input')
+      await this.play()
+      return
+    }
+
     const result = this.check(inputArr)
 
     if (result.hit !== this.answer.length) {
@@ -59,6 +66,10 @@ class HitAndBlow {
     } else {
       this.tryCount++
     }
+  }
+  end() {
+    printLine(`success!\ntry times: ${this.tryCount}`)
+    process.exit()
   }
   /**
    * check input
@@ -80,9 +91,16 @@ class HitAndBlow {
       hit: hitCount, blow: blowCount
     }
   }
-  end() {
-    printLine(`success!\ntry times: ${this.tryCount}`)
-    process.exit()
+  /**
+   * validate input
+   * @param inputArr input string
+   * @returns true if validate
+   */
+  private validate(inputArr: string[]) {
+    const isLengthValid = inputArr.length === this.answer.length
+    const isAllAnswerSourceOption = inputArr.every((val) => this.answerSource.includes(val))
+    const isAllDifferentValues = inputArr.every((val, i) => inputArr.indexOf(val) === i)
+    return isLengthValid && isAllAnswerSourceOption && isAllDifferentValues
   }
 }
 /**
@@ -92,5 +110,5 @@ class HitAndBlow {
   const hitAndBlow = new HitAndBlow()
   hitAndBlow.setting()
   await hitAndBlow.play()
-  hitAndBlow.end
+  hitAndBlow.end()
 })()
