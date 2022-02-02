@@ -32,7 +32,14 @@ class HitAndBlow {
    * game try count
    */
   private tryCount = 0
+  /**
+   * mode
+   */
   private mode: 'nomal' | 'hard'
+  /**
+   * constructor
+   * @param {'nomal' | 'hard'} mode 
+   */
   constructor(mode: 'nomal' | 'hard') {
     this.mode = mode
   }
@@ -72,6 +79,9 @@ class HitAndBlow {
       this.tryCount++
     }
   }
+  /**
+   * game end
+   */
   end() {
     printLine(`success!\ntry times: ${this.tryCount}`)
     process.exit()
@@ -107,6 +117,10 @@ class HitAndBlow {
     const isAllDifferentValues = inputArr.every((val, i) => inputArr.indexOf(val) === i)
     return isLengthValid && isAllAnswerSourceOption && isAllDifferentValues
   }
+  /**
+   * get answer length
+   * @returns {number}
+   */
   private getAnswerLength() {
     switch (this.mode) {
       case 'nomal':
