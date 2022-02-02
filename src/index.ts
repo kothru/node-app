@@ -16,6 +16,7 @@ const promptInput = async (text: string) => {
   const input: string = await new Promise((resolve) => process.stdin.once('data', (data) => resolve(data.toString())))
   return input.trim()
 }
+type Mode = 'nomal' | 'hard' | 'very hard'
 /**
  * game class
  */
@@ -35,18 +36,12 @@ class HitAndBlow {
   /**
    * mode
    */
-  private mode: 'nomal' | 'hard' | 'very hard'
-  /**
-   * constructor
-   * @param {'nomal' | 'hard'} mode
-   */
-  constructor(mode: 'nomal' | 'hard' | 'very hard') {
-    this.mode = mode
-  }
+  private mode: Mode = 'nomal'
   /**
    * initialize game
    */
-  setting() {
+  async setting() {
+    this.mode = await promptInput('input mode') as Mode
     const answerLength = this.getAnswerLength()
     while (this.answer.length < answerLength) {
       const randNum = Math.floor(Math.random() * this.answerSource.length)
@@ -139,8 +134,8 @@ class HitAndBlow {
  * IIFE
  */
 ; (async () => {
-  const hitAndBlow = new HitAndBlow('hard')
-  hitAndBlow.setting()
+  const hitAndBlow = new HitAndBlow()
+  await hitAndBlow.setting()
   await hitAndBlow.play()
   hitAndBlow.end()
 })()
