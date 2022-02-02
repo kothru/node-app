@@ -1,18 +1,47 @@
+import { read } from "fs"
+
 /**
  * print one line
- * @param text print text
- * @param breakLine print break line if true
+ * @param {string} text print text
+ * @param {boolean} breakLine print break line if true
  */
 const printLine = (text: string, breakLine: boolean = true) => {
   process.stdout.write(text + (breakLine ? '\n' : ''))
 }
 /**
  * prompt stdin input
- * @param text print prompt text
- * @returns input string
+ * @param {string} text print prompt text
+ * @returns {string} input string
  */
 const promptInput = async (text: string) => {
   printLine(`\n${text}\n> `, false)
+  return readLine()
+}
+/**
+ * prompt stdin input select only values
+ * @param {string} text print prompt text
+ * @param {readonly string[]} values select list
+ * @returns {string|Promise<string>} select value
+ */
+const promptSelect = async (text: string, values: readonly string[]): Promise<string> => {
+  printLine(`\n${text}`)
+  values.forEach((value) => {
+    printLine(`- ${value}`)
+  })
+  printLine(`> `, false)
+
+  const input = await readLine()
+  if (values.includes(input)) {
+    return input
+  } else {
+    return promptSelect(text, values)
+  }
+}
+/**
+ * read stdin one line
+ * @returns {string} read line string
+ */
+const readLine = async () => {
   const input: string = await new Promise((resolve) => process.stdin.once('data', (data) => resolve(data.toString())))
   return input.trim()
 }
@@ -83,7 +112,7 @@ class HitAndBlow {
   }
   /**
    * check input
-   * @param input input string
+   * @param {string[]} input input string
    * @returns hit: hit count, blow: blow count
    */
   private check(input: string[]) {
@@ -103,7 +132,7 @@ class HitAndBlow {
   }
   /**
    * validate input
-   * @param inputArr input string
+   * @param {string[]} inputArr input string
    * @returns true if validate
    */
   private validate(inputArr: string[]) {
@@ -114,7 +143,7 @@ class HitAndBlow {
   }
   /**
    * get answer length
-   * @returns {number}
+   * @returns {number} answer length
    */
   private getAnswerLength() {
     switch (this.mode) {
