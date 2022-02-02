@@ -35,12 +35,12 @@ class HitAndBlow {
   /**
    * mode
    */
-  private mode: 'nomal' | 'hard'
+  private mode: 'nomal' | 'hard' | 'very hard'
   /**
    * constructor
-   * @param {'nomal' | 'hard'} mode 
+   * @param {'nomal' | 'hard'} mode
    */
-  constructor(mode: 'nomal' | 'hard') {
+  constructor(mode: 'nomal' | 'hard' | 'very hard') {
     this.mode = mode
   }
   /**
@@ -127,6 +127,11 @@ class HitAndBlow {
         return 3
       case 'hard':
         return 4
+      case 'very hard':
+        return 5
+      default:
+        const neverValue: never = this.mode
+        throw new Error(`${neverValue} is disable mode`)
     }
   }
 }
