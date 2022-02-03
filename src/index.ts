@@ -23,18 +23,18 @@ const promptInput = async (text: string) => {
  * @param {readonly string[]} values select list
  * @returns {string|Promise<string>} select value
  */
-const promptSelect = async (text: string, values: readonly string[]): Promise<string> => {
+const promptSelect = async <T extends string>(text: string, values: readonly T[]): Promise<T> => {
   printLine(`\n${text}`)
   values.forEach((value) => {
     printLine(`- ${value}`)
   })
   printLine(`> `, false)
 
-  const input = await readLine()
+  const input = (await readLine()) as T
   if (values.includes(input)) {
     return input
   } else {
-    return promptSelect(text, values)
+    return promptSelect<T>(text, values)
   }
 }
 /**
@@ -45,7 +45,14 @@ const readLine = async () => {
   const input: string = await new Promise((resolve) => process.stdin.once('data', (data) => resolve(data.toString())))
   return input.trim()
 }
-type Mode = 'nomal' | 'hard' | 'very hard'
+/**
+ * mode array
+ */
+const modes = ['normal', 'hard', 'very hard'] as const
+/**
+ * mode type
+ */
+type Mode = typeof modes[number]
 /**
  * game class
  */
@@ -65,12 +72,12 @@ class HitAndBlow {
   /**
    * mode
    */
-  private mode: Mode = 'nomal'
+  private mode: Mode = 'normal'
   /**
    * initialize game
    */
   async setting() {
-    this.mode = await promptInput('input mode') as Mode
+    this.mode = await promptSelect<Mode>('input mode', modes)
     const answerLength = this.getAnswerLength()
     while (this.answer.length < answerLength) {
       const randNum = Math.floor(Math.random() * this.answerSource.length)
@@ -147,7 +154,7 @@ class HitAndBlow {
    */
   private getAnswerLength() {
     switch (this.mode) {
-      case 'nomal':
+      case 'normal':
         return 3
       case 'hard':
         return 4
