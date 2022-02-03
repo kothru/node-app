@@ -167,6 +167,11 @@ class HitAndBlow {
    */
   end() {
     printLine(`success!\ntry times: ${this.tryCount}`)
+    this.reset()
+  }
+  private reset() {
+    this.answer = []
+    this.tryCount = 0
   }
   /**
    * check input
