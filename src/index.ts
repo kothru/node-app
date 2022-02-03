@@ -54,6 +54,43 @@ const modes = ['normal', 'hard', 'very hard'] as const
  */
 type Mode = typeof modes[number]
 /**
+ * Game selector
+ */
+class GameProcedure {
+  /**
+   * current select game title
+   */
+  private currentGameTitle = 'hit and blow'
+  /**
+   * current game instance
+   */
+  private currentGame = new HitAndBlow()
+  /**
+   * game start proc
+   */
+  public async start() {
+    await this.play()
+  }
+  /**
+   * game play proc
+   */
+  private async play() {
+    printLine(`===\n${this.currentGameTitle} start\n===`)
+    await this.currentGame.setting()
+    await this.currentGame.play()
+    this.currentGame.end()
+    this.end()
+  }
+  /**
+   * game end proc
+   */
+  private end() {
+    printLine('end game')
+    process.exit()
+  }
+}
+
+/**
  * game class
  */
 class HitAndBlow {
@@ -170,8 +207,5 @@ class HitAndBlow {
  * IIFE
  */
 ; (async () => {
-  const hitAndBlow = new HitAndBlow()
-  await hitAndBlow.setting()
-  await hitAndBlow.play()
-  hitAndBlow.end()
+  new GameProcedure().start()
 })()
