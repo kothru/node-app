@@ -1,5 +1,3 @@
-import { read } from "fs"
-
 /**
  * print one line
  * @param text print text
@@ -54,6 +52,14 @@ const modes = ['normal', 'hard', 'very hard'] as const
  */
 type Mode = typeof modes[number]
 /**
+ * next action array
+ */
+const nextActions = ['play again', 'exit'] as const
+/**
+ * next action type
+ */
+type NextAction = typeof nextActions[number]
+/**
  * Game selector
  */
 class GameProcedure {
@@ -79,7 +85,16 @@ class GameProcedure {
     await this.currentGame.setting()
     await this.currentGame.play()
     this.currentGame.end()
-    this.end()
+
+    const action = await promptSelect<NextAction>('continue?', nextActions)
+    if (action === 'play again') {
+      await this.play()
+    } else if (action === 'exit') {
+      this.end()
+    } else {
+      const neverValue: never = action
+      throw new Error(`${neverValue} is an invalid action`)
+    }
   }
   /**
    * game end proc
@@ -152,7 +167,6 @@ class HitAndBlow {
    */
   end() {
     printLine(`success!\ntry times: ${this.tryCount}`)
-    process.exit()
   }
   /**
    * check input
@@ -199,7 +213,7 @@ class HitAndBlow {
         return 5
       default:
         const neverValue: never = this.mode
-        throw new Error(`${neverValue} is disable mode`)
+        throw new Error(`${neverValue} is invalid mode`)
     }
   }
 }
