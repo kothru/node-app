@@ -120,7 +120,7 @@ class HitAndBlow {
   /**
    * check input
    * @param {string[]} input input string
-   * @returns hit: hit count, blow: blow count
+   * @returns {{hit: number; blow: number}}hit: hit count, blow: blow count
    */
   private check(input: string[]) {
     let hitCount = 0
@@ -140,7 +140,7 @@ class HitAndBlow {
   /**
    * validate input
    * @param {string[]} inputArr input string
-   * @returns true if validate
+   * @returns {boolean} true if validate
    */
   private validate(inputArr: string[]) {
     const isLengthValid = inputArr.length === this.answer.length
