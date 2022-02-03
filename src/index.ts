@@ -2,16 +2,16 @@ import { read } from "fs"
 
 /**
  * print one line
- * @param {string} text print text
- * @param {boolean} breakLine print break line if true
+ * @param text print text
+ * @param breakLine print break line if true
  */
 const printLine = (text: string, breakLine: boolean = true) => {
   process.stdout.write(text + (breakLine ? '\n' : ''))
 }
 /**
  * prompt stdin input
- * @param {string} text print prompt text
- * @returns {string} input string
+ * @param text print prompt text
+ * @returns input string
  */
 const promptInput = async (text: string) => {
   printLine(`\n${text}\n> `, false)
@@ -19,9 +19,9 @@ const promptInput = async (text: string) => {
 }
 /**
  * prompt stdin input select only values
- * @param {string} text print prompt text
- * @param {readonly string[]} values select list
- * @returns {string|Promise<string>} select value
+ * @param text print prompt text
+ * @param values select list
+ * @returns select value
  */
 const promptSelect = async <T extends string>(text: string, values: readonly T[]): Promise<T> => {
   printLine(`\n${text}`)
@@ -39,7 +39,7 @@ const promptSelect = async <T extends string>(text: string, values: readonly T[]
 }
 /**
  * read stdin one line
- * @returns {string} read line string
+ * @returns read line string
  */
 const readLine = async () => {
   const input: string = await new Promise((resolve) => process.stdin.once('data', (data) => resolve(data.toString())))
@@ -156,8 +156,8 @@ class HitAndBlow {
   }
   /**
    * check input
-   * @param {string[]} input input string
-   * @returns {{hit: number; blow: number}}hit: hit count, blow: blow count
+   * @param input input string
+   * @returns hit: hit count, blow: blow count
    */
   private check(input: string[]) {
     let hitCount = 0
@@ -176,8 +176,8 @@ class HitAndBlow {
   }
   /**
    * validate input
-   * @param {string[]} inputArr input string
-   * @returns {boolean} true if validate
+   * @param inputArr input string
+   * @returns true if validate
    */
   private validate(inputArr: string[]) {
     const isLengthValid = inputArr.length === this.answer.length
@@ -187,7 +187,7 @@ class HitAndBlow {
   }
   /**
    * get answer length
-   * @returns {number} answer length
+   * @returns answer length
    */
   private getAnswerLength() {
     switch (this.mode) {
