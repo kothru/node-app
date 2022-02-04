@@ -60,6 +60,30 @@ const nextActions = ['play again', 'exit'] as const
  */
 type NextAction = typeof nextActions[number]
 /**
+ * game instance store
+ */
+type GameStore = {
+  'hit and blow': HitAndBlow
+  'janken': Janken
+}
+/**
+ * janken game dummy class
+ */
+class Janken {
+  async setting() {
+  }
+  /**
+   * playing game
+   */
+  async play() {
+  }
+  /**
+   * game end
+   */
+  end() {
+  }
+}
+/**
  * Game selector
  */
 class GameProcedure {
@@ -71,6 +95,11 @@ class GameProcedure {
    * current game instance
    */
   private currentGame = new HitAndBlow()
+  /**
+   * constructor
+   * @param gameStore game store instance
+   */
+  constructor(private readonly gameStore: GameStore) { }
   /**
    * game start proc
    */
@@ -104,7 +133,6 @@ class GameProcedure {
     process.exit()
   }
 }
-
 /**
  * game class
  */
@@ -226,5 +254,8 @@ class HitAndBlow {
  * IIFE
  */
 ; (async () => {
-  new GameProcedure().start()
+  new GameProcedure({
+    'hit and blow': new HitAndBlow(),
+    'janken': new Janken()
+  }).start()
 })()
