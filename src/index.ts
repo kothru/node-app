@@ -60,6 +60,14 @@ const nextActions = ['play again', 'exit'] as const
  */
 type NextAction = typeof nextActions[number]
 /**
+ * game title array
+ */
+const gameTitles = ['hit and blow', 'janken'] as const
+/**
+ * game title type
+ */
+type GameTitle = typeof gameTitles[number]
+/**
  * game instance store
  */
 type GameStore = {
