@@ -71,8 +71,7 @@ type GameTitle = typeof gameTitles[number]
  * game instance store
  */
 type GameStore = {
-  'hit and blow': HitAndBlow
-  'janken': Janken
+  [key in GameTitle]: HitAndBlow | Janken
 }
 /**
  * janken game dummy class
