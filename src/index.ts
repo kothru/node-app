@@ -71,24 +71,15 @@ type GameTitle = typeof gameTitles[number]
  * game instance store
  */
 type GameStore = {
-  [key in GameTitle]: HitAndBlow | Janken
+  [key in GameTitle]: Game
 }
 /**
- * janken game dummy class
+ * game abstract class
  */
-class Janken {
-  async setting() {
-  }
-  /**
-   * playing game
-   */
-  async play() {
-  }
-  /**
-   * game end
-   */
-  end() {
-  }
+abstract class Game {
+  abstract setting(): Promise<void>
+  abstract play(): Promise<void>
+  abstract end(): void
 }
 /**
  * Game selector
@@ -101,7 +92,7 @@ class GameProcedure {
   /**
    * current game instance
    */
-  private currentGame: HitAndBlow | Janken | null = null
+  private currentGame: Game | null = null
   /**
    * constructor
    * @param gameStore game store instance
@@ -152,7 +143,7 @@ class GameProcedure {
 /**
  * game class
  */
-class HitAndBlow {
+class HitAndBlow implements Game {
   /**
    * answer item source
    */
@@ -264,6 +255,23 @@ class HitAndBlow {
         const neverValue: never = this.mode
         throw new Error(`${neverValue} is invalid mode`)
     }
+  }
+}
+/**
+ * janken game dummy class
+ */
+class Janken implements Game {
+  async setting() {
+  }
+  /**
+   * playing game
+   */
+  async play() {
+  }
+  /**
+   * game end
+   */
+  end() {
   }
 }
 /**
