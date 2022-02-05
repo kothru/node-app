@@ -98,11 +98,11 @@ class GameProcedure {
   /**
    * current select game title
    */
-  private currentGameTitle = 'hit and blow'
+  private currentGameTitle: GameTitle | '' = ''
   /**
    * current game instance
    */
-  private currentGame = new HitAndBlow()
+  private currentGame: HitAndBlow | Janken | null = null
   /**
    * constructor
    * @param gameStore game store instance
@@ -112,12 +112,21 @@ class GameProcedure {
    * game start proc
    */
   public async start() {
+    await this.select()
     await this.play()
+  }
+  /**
+   * select game
+   */
+  private async select() {
+    this.currentGameTitle = await promptSelect<GameTitle>('enter game title', gameTitles)
+    this.currentGame = this.gameStore[this.currentGameTitle]
   }
   /**
    * game play proc
    */
   private async play() {
+    if (!this.currentGame) throw new Error('no select game')
     printLine(`===\n${this.currentGameTitle} start\n===`)
     await this.currentGame.setting()
     await this.currentGame.play()
